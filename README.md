@@ -38,7 +38,7 @@ This package exposes 3 tags `<gql-client>`, `<gql-query>` and `<gql-mutation>` d
 
 ## On the server
 
-When the page is being rendered a request will be made to the GraphQL service and Marko will continue rendering and streaming the page to the browser. On completion of that request Marko will stream the completed HTML to the browser. If the GraphQL query is not stateful Marko will only serialize the data as needed by descendant stateful components and the GraphQL client will not be part of your bundle.
+When the page is being rendered a request will be made to the GraphQL service and Marko will continue rendering and streaming the page to the browser. On completion of that request Marko will stream the completed HTML to the browser. If the GraphQL query is not under a stateful component Marko will only serialize the data as needed by descendant stateful components and the GraphQL client will not be part of your bundle.
 
 ## In the browser
 

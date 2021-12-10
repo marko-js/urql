@@ -1,7 +1,7 @@
 {
   "name": "@marko/graphql",
   "description": "An isomorphic wrapper over the urql GraphQL client for Marko.",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "author": "Ryan Carniato <rcarniato@ebay.com>",
   "bugs": "https://github.com/marko-js/urql/issues",
   "dependencies": {
