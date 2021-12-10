@@ -1,0 +1,35 @@
+{
+  "autocomplete": [
+    {
+      "displayText": "gql-client url=\"<url>\"",
+      "description": "Configures our graphql client.",
+      "snippet": "gql-client url=\"${1:url}\"",
+      "descriptionMoreURL": "https://github.com/marko-js/urql"
+    }
+  ],
+  "@url": {
+    "type": "string",
+    "required": true,
+    "autocomplete": [
+      {
+        "description": "A relative URL to an HTML resource"
+      }
+    ]
+  },
+  "@fetch": {
+    "type": "function",
+    "autocomplete": [
+      {
+        "description": "A custom fetch implementation"
+      }
+    ]
+  },
+  "@requestPolicy": {
+    "enum": ["cache-first", "cache-and-network", "network-only", "cache-only"],
+    "autocomplete": [
+      {
+        "description": "Default cache policy for requests."
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+import { gql } from "../../../../../../index";
+static const QUERY = gql`
+  {
+    hello
+  }
+`;
+
+class {
+  onCreate() {
+    this.state = { mounted: false }
+  }
+  onMount() {
+    this.state = { mounted: true }
+  }
+}
+
+<if(state.mounted)>
+  <gql-query query=QUERY>
+    <@then|{ data }|><span>${data.hello}</span></@then>
+  </gql-query>
+</if>

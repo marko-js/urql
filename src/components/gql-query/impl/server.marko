@@ -1,0 +1,26 @@
+import fetch from "node-fetch";
+import { createClient } from "../../../client";
+$ {
+  let store =
+    out.global.$$GQL ||
+    (out.global.$$GQL = createClient({ fetch, isServer: true }));
+  const request = store.client.query(input.query, input.variables).toPromise();
+}
+
+<await(request) client-reorder placeholder=input.placeholder>
+  <@then|result|>
+    <component-def/>
+    <div no-update>
+      <if(componentDef._wrr)>
+        <gql-query-client
+          data=result.data
+          op-key=result.operation.key
+          then=input.then
+          key="gqlc"
+        />
+      </if>
+      <else><${input.then.renderBody} data=result.data/></else>
+    </div>
+  </@then>
+</await>
+

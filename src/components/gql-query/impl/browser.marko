@@ -1,0 +1,19 @@
+import readyLookup from "../ready-lookup";
+import { createClient } from "../../../client";
+$ window.$$GQL || (window.$$GQL = createClient({}));
+
+<div no-update-if(!component.ready)>
+  $ component.ready = true;
+  <gql-query-client
+    key="gqlc"
+    ...input
+  />
+</div>
+$ if (!component.ready) {
+  const id = component.elId("@gqlc");
+  readyLookup[id] = () => {
+    delete readyLookup[id];
+    component.ready = true;
+    component.forceUpdate();
+  };
+}

@@ -1,0 +1,55 @@
+import { pipe, subscribe } from "wonka";
+import readyLookup from "../../ready-lookup";
+
+static function doQuery(component, input, options = {}) {
+  if (component.unsubscribe) {
+    component.unsubscribe();
+    component.unsubscribe = null;
+  }
+  if (component.results) component.results.fetching = true;
+  component.unsubscribe = pipe(
+    component.store.client.query(input.query, input.variables, {
+      ...input.context,
+      requestPolicy: input.requestPolicy,
+      ...options,
+    }),
+    subscribe((results) => {
+      component.results = results;
+      component.results.fetching = false;
+      component.forceUpdate();
+    })
+  ).unsubscribe;
+}
+class {
+  onCreate({ data }) {
+    data && (this.results = { data });
+  }
+  onInput(input) {
+    if (typeof window !== "undefined") {
+      this.store = window.$$GQL;
+
+      if ("opKey" in input) {
+        this.store.ssr.restoreData({
+          [input.opKey]: { data: JSON.stringify(input.data) },
+        });
+        readyLookup[this.id]();
+      } else doQuery(this, input);
+    }
+  }
+  onDestroy() {
+    this.unsubscribe && this.unsubscribe();
+  }
+}
+
+<if(component.results)>
+  <${input.then.renderBody}(
+    component.results,
+    (options = {}) => {
+      doQuery(component, input, { requestPolicy: "network-only", ...options });
+      component.forceUpdate();
+    },
+  )/>
+</if>
+<else-if(input.placeholder)>
+  <${input.placeholder.renderBody}/>
+</else-if>

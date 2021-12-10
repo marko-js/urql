@@ -1,0 +1,53 @@
+{
+  "autocomplete": [
+    {
+      "displayText": "gql-query query=\"<query>\"",
+      "description": "Queries the GraphQL service.",
+      "snippet": "gql-query query=\"${1:query}\"",
+      "descriptionMoreURL": "https://github.com/marko-js/micro-frame"
+    }
+  ],
+  "@query": {
+    "type": "expression",
+    "required": true,
+    "autocomplete": [
+      {
+        "description": "GraphQL query to execute"
+      }
+    ]
+  },
+  "@variables": {
+    "type": "object",
+    "autocomplete": [
+      {
+        "description": "Variables to pass to GraphQL query"
+      }
+    ]
+  },
+  "@requestPolicy": {
+    "enum": ["cache-first", "cache-and-network", "network-only", "cache-only"],
+    "autocomplete": [
+      {
+        "description": "Default cache policy for requests."
+      }
+    ]
+  },
+  "@then <then>": {
+    "attributes": {},
+    "autocomplete": [
+      {
+        "displayText": "@then|<results>, <revalidate>|",
+        "description": "The content block that recieves the query results",
+        "snippet": "@then|${1:results},${2:revalidate}|"
+      }
+    ]
+  },
+  "@placeholder <placeholder>": {
+    "attributes": {},
+    "autocomplete": [
+      {
+        "description": "A block rendered while the resource is initially loading and removed after loading is complete"
+      }
+    ]
+  }
+}

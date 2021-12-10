@@ -1,0 +1,20 @@
+import { gql } from "../../../../../../index";
+
+static const MUTATION = gql`
+  mutation {
+    doError
+  }
+`;
+
+class {
+  handleClick(mutate, e) {
+    mutate({ text: "Hello" });
+  }
+}
+
+<gql-mutation|mutate, results| mutation=MUTATION>
+  <h1>Messages</h1>
+  <span>${results.error}</span>
+  <button on-click("handleClick", mutate)>Add</button>
+</gql-mutation>
+

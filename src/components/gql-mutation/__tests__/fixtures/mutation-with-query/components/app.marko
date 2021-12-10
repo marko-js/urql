@@ -1,0 +1,29 @@
+import { gql } from "../../../../../../index";
+static const QUERY = gql`
+  query {
+    messages
+  }
+`;
+static const MUTATION = gql`
+  mutation addMessage($text: String!) {
+    addMessage(text: $text)
+  }
+`;
+class {
+  handleClick(mutate, revalidate) {
+    mutate({ text: "Hello" }).then(() => revalidate());
+  }
+}
+
+<gql-query query=QUERY>
+  <@then|{ data }, revalidate|>
+    <gql-mutation|mutate| mutation=MUTATION>
+      <h1>Messages</h1>
+      <for|message| of=data.messages>
+        <div>${message}</div>
+      </for>
+      <button on-click("handleClick", mutate, revalidate)>Add</button>
+    </gql-mutation>
+  </@then>
+  <@placeholder><span>Loading Messages</span></@placeholder>
+</gql-query>

@@ -1,0 +1,14 @@
+import { gql } from "../../../../../../index";
+
+static const MUTATION = gql`
+  mutation addMessage(
+    $text: String!
+  ) {
+    addMessage(text: $text)
+  }
+`;
+
+<gql-mutation mutation=MUTATION>
+  <h1>Messages</h1>
+</gql-mutation>
+

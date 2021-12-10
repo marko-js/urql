@@ -1,0 +1,45 @@
+{
+  "autocomplete": [
+    {
+      "displayText": "gql-mutation|<mutate>,<results>| mutation=\"<mutation>\"",
+      "description": "Executes a Mutation request against the GraphQL service.",
+      "snippet": "gql-mutation|${1:mutate},${2:results}| mutation=\"${3:mutation}\"",
+      "descriptionMoreURL": "https://github.com/marko-js/urql"
+    }
+  ],
+  "@mutation": {
+    "type": "expression",
+    "required": true,
+    "autocomplete": [
+      {
+        "description": "GraphQL mutation to execute"
+      }
+    ]
+  },
+  "@requestPolicy": {
+    "enum": ["cache-first", "cache-and-network", "network-only", "cache-only"],
+    "autocomplete": [
+      {
+        "description": "Default cache policy for requests."
+      }
+    ]
+  },
+  "@then <then>": {
+    "attributes": {},
+    "autocomplete": [
+      {
+        "displayText": "@then|<results>, <revalidate>|",
+        "description": "The content block that recieves the query results",
+        "snippet": "@then|${1:results},${2:revalidate}|"
+      }
+    ]
+  },
+  "@placeholder <placeholder>": {
+    "attributes": {},
+    "autocomplete": [
+      {
+        "description": "A block rendered while the resource is initially loading and removed after loading is complete"
+      }
+    ]
+  }
+}
