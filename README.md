@@ -23,7 +23,7 @@
 </h1>
 
 <p align="center">
-  A wrapper over the [urql](https://github.com/FormidableLabs/urql) GraphQL client for Marko.
+  A wrapper over the <a href="https://github.com/FormidableLabs/urql">URQL</a> GraphQL client for Marko.
 </p>
 
 # Installation
