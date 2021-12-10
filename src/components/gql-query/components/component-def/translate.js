@@ -6,7 +6,7 @@ module.exports = (path) => {
       t.variableDeclarator(
         t.identifier("componentDef"),
         path.hub.file._componentDefIdentifier
-      )
+      ),
     ])
   );
 };

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   createClient as internalCreate,
   dedupExchange,
@@ -8,7 +7,13 @@ import {
 } from "@urql/core";
 import lookup from "./lookup";
 
-export function createClient({ isServer, fetch }) {
+export function createClient({
+  isServer,
+  fetch,
+}: {
+  isServer: boolean;
+  fetch?: (resource: RequestInfo, options?: RequestInit) => Promise<Response>;
+}) {
   // The `ssrExchange` must be initialized with `isClient` and `initialState`
   const ssr = ssrExchange({
     isClient: !isServer,

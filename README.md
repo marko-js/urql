@@ -46,13 +46,14 @@ If your GraphQL query is part of a stateful component when the browser receives 
 
 ## Caching
 
-This package uses query cache where queries are cached by combination of query and variables. Requesting the same query will return the cached results instead of requesting to the server again by default. This behavior can be modified setting the `requestPolicy.
+This package uses query cache where queries are cached by combination of query and variables. Requesting the same query will return the cached results instead of requesting to the server again by default. This behavior can be modified setting the `requestPolicy`.
 
 Available Cache Policies are:
-* `cache-first` (the default) prefers cached results and falls back to sending an API request when no prior result is cached.
-* `cache-and-network` returns cached results but also always sends an API request, which is perfect for displaying data quickly while keeping it up-to-date.
-* `network-only` will always send an API request and will ignore cached results.
-* `cache-only` will always return cached results or null.
+
+- `cache-first` (the default) prefers cached results and falls back to sending an API request when no prior result is cached.
+- `cache-and-network` returns cached results but also always sends an API request, which is perfect for displaying data quickly while keeping it up-to-date.
+- `network-only` will always send an API request and will ignore cached results.
+- `cache-only` will always return cached results or null.
 
 # Example
 
@@ -106,13 +107,14 @@ The url of the GraphQL server.
 This attribute allows you to pass a custom `fetch` implementation.
 
 In the following example we'll add a token to each fetch request that our Client sends to our GraphQL API.
+
 ```marko
 <gql-client
   url="http://localhost:3000/graphql"
-  fetch=((resource, init) => {
+  fetch=((resource, options) => {
     const token = getToken();
     return fetch(resource, {
-      ...init
+      ...options,
       headers: { authorization: token ? `Bearer ${token}` : '' },
     });
   })
@@ -145,9 +147,9 @@ The cache policy to use with this query request.
 
 The content to display on query completion. The results object consists of:
 
-* `data` is the data returned from the graphql request
-* `error` is any errors that come back from request
-* `fetching` is a boolean to indicate if the request is currently in flight
+- `data` is the data returned from the graphql request
+- `error` is any errors that come back from request
+- `fetching` is a boolean to indicate if the request is currently in flight
 
 `revalidate` is a function to refresh the current query. By default it uses `network-only` cache policy, but it is overridable by passing `requestPolicy` key on options object passed to it.
 
@@ -161,9 +163,9 @@ This tag performs graphql mutations. The content is rendered immediately on moun
 
 The results object consists of:
 
-* `data` is the data returned from the graphql mutation
-* `error` is any errors that come back from request
-* `fetching` is a boolean to indicate if the request is currently in flight
+- `data` is the data returned from the graphql mutation
+- `error` is any errors that come back from request
+- `fetching` is a boolean to indicate if the request is currently in flight
 
 Example:
 

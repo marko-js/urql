@@ -10,7 +10,7 @@ import { graphqlHTTP } from "express-graphql";
 import { buildSchema } from "graphql";
 
 // Construct a schema, using GraphQL schema language
-var schema = buildSchema(`
+const schema = buildSchema(`
   type Query {
     hello(name: String): String
     messages: [String]
@@ -39,8 +39,8 @@ const createRoot = () => {
       return text;
     },
     doError: () => {
-      throw new Error("Oh No")
-    }
+      throw new Error("Oh No");
+    },
   };
 };
 

@@ -1,5 +1,4 @@
 import path from "path";
-import assert from "assert";
 import fixture from "../../../__tests__/fixture";
 
 describe("client-only", fixture(path.join(__dirname, "fixtures/client-only")));
@@ -46,6 +45,6 @@ describe(
   fixture(path.join(__dirname, "fixtures/request-policy"), [
     async (page) => await page.click("text=Toggle"),
     async (page) => await page.click("text=Toggle"),
-    async (page) => await page.click("text=Toggle")
+    async (page) => await page.click("text=Toggle"),
   ])
 );
