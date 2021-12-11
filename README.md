@@ -202,7 +202,7 @@ The graphql query to perform.
 
 #### `requestPolicy`
 
-The cache policy to use with this query request.
+The cache policy to use with this mutation request.
 
 # Code of Conduct
 
