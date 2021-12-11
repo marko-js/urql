@@ -1,9 +1,11 @@
 {
-  "name": "@marko/graphql",
+  "name": "@marko/urql",
   "description": "An isomorphic wrapper over the urql GraphQL client for Marko.",
   "version": "0.0.1",
   "author": "Ryan Carniato <rcarniato@ebay.com>",
-  "bugs": "https://github.com/marko-js/urql/issues",
+  "bugs": {
+    "url": "https://github.com/marko-js/urql/issues"
+  },
   "dependencies": {
     "graphql": "^15.6.1",
     "make-fetch-happen": "^9.1.0",
@@ -68,7 +70,10 @@
   "module": "dist/index.mjs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/marko-js/urql"
+    "url": "git+https://github.com/marko-js/urql.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsc -b && node -r esbuild-register build",
@@ -86,5 +91,6 @@
     "test": "npm run mocha -- --watch",
     "test:inspect": "npm test -- --inspect",
     "test:update": "npm run mocha -- --update"
-  }
+  },
+  "types": "./dist/index.d.ts"
 }
