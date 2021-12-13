@@ -37,7 +37,21 @@ import { build, BuildOptions } from "esbuild";
     build({
       ...opts,
       format: "esm",
+      bundle: true,
+      splitting: true,
       outExtension: { ".js": ".mjs" },
+      plugins: [
+        {
+          name: "make-all-packages-external",
+          setup(build) {
+            const filter = /^[^./]|^\.[^./]|^\.\.[^/]/; // Must not start with "/" or "./" or "../"
+            build.onResolve({ filter }, (args) => ({
+              path: args.path,
+              external: true,
+            }));
+          },
+        },
+      ],
     }),
   ]);
 })().catch((err) => {
