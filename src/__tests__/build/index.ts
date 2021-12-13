@@ -5,7 +5,7 @@ import markoPlugin from "./marko-plugin";
 
 const cwd = process.cwd();
 
-export default async function (runtimeId: string, file: string) {
+export default async function (file: string) {
   const outdir = path.join(cwd, "dist");
   const built = await build({
     outdir,
@@ -16,8 +16,8 @@ export default async function (runtimeId: string, file: string) {
     platform: "browser",
     sourcemap: "inline",
     entryNames: "[dir]/[name]-[hash]",
-    entryPoints: { [runtimeId]: file },
-    plugins: [markoPlugin({ runtimeId })],
+    entryPoints: { main: file },
+    plugins: [markoPlugin({})],
   });
 
   const meta = built.metafile!.outputs;

@@ -62,11 +62,7 @@ export async function start(dir: string) {
       const name = path.basename(entry, ".marko");
       if (name !== entry) {
         const file = path.join(dir, entry);
-        const runtimeId = `${path.basename(dir)}_${name}`.replace(
-          /[^a-z0-9_$]+/g,
-          "_"
-        );
-        const assets = await build(runtimeId, file);
+        const assets = await build(file);
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const template = require(file).default;
 
@@ -80,7 +76,6 @@ export async function start(dir: string) {
         }
 
         app.get(`/${name === "index" ? "" : name}`, (_req, res) => {
-          res.locals.runtimeId = runtimeId;
           res.locals.assets = assets;
 
           if (process.env.NODE_ENV === "test") {
