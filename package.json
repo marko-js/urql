@@ -82,7 +82,7 @@
     "lint": "tsc -b && npm run lint:eslint && npm run lint:prettier -- -l && fixpack",
     "lint:eslint": "eslint -f visualstudio .",
     "lint:prettier": "prettier '**/*{.ts,.js,.json,.md,.yml,rc}'",
-    "mocha": "NODE_ENV=test mocha 'src/**/__tests__/*.test.ts'",
+    "mocha": "MARKO_DEBUG=1 NODE_ENV=test mocha 'src/**/__tests__/*.test.ts'",
     "postpublish": "replace --silent 'dist' 'src' marko.json",
     "prepare": "husky install",
     "prepublishOnly": "npm run build && replace --silent 'src' 'dist' marko.json",
