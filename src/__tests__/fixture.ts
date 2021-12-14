@@ -118,6 +118,7 @@ async function waitForPendingRequests(page: playwright.Page, step: Step) {
   const addOne = () => remaining++;
   const finishOne = async () => {
     // wait a tick to see if new requests start from this one.
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await page.evaluate(() => {});
     if (!--remaining) resolve();
   };
