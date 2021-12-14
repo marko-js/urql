@@ -58,7 +58,7 @@ before(async () => {
         if (document.body) {
           const body = document.body.cloneNode(true);
           const scripts = (body as HTMLElement).querySelectorAll("script");
-          scripts.forEach(n => n.remove())
+          scripts.forEach((n) => n.remove());
           __track__((body as HTMLElement).innerHTML);
           observer.disconnect();
           queueMicrotask(observe);
