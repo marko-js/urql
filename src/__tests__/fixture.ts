@@ -56,7 +56,10 @@ before(async () => {
     context.addInitScript(() => {
       const observer = new MutationObserver(() => {
         if (document.body) {
-          __track__(document.body.innerHTML);
+          const body = document.body.cloneNode(true);
+          const scripts = (body as HTMLElement).querySelectorAll("script");
+          scripts.forEach(n => n.remove())
+          __track__((body as HTMLElement).innerHTML);
           observer.disconnect();
           queueMicrotask(observe);
         }
