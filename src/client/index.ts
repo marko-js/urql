@@ -26,8 +26,8 @@ export function createClient({
       ssr, // Add `ssr` in front of the `fetchExchange`
       fetchExchange,
     ],
-    ...lookup.config,
     fetch,
+    ...lookup.config,
   });
 
   return { client, ssr };

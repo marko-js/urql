@@ -86,7 +86,7 @@ class {
   </@then>
   <@placeholder>
     <spinner />
-  <@placeholder>
+  </@placeholder>
 </gql-query>
 ```
 
