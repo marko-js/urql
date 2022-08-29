@@ -121,6 +121,10 @@ In the following example we'll add a token to each fetch request that our Client
 />
 ```
 
+#### `fetchOptions`
+
+This attribute allows you to pass extra options to the fetch function.
+
 #### `requestPolicy`
 
 Set the default cache policy. The default is "cache-first".
