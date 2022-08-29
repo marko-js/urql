@@ -24,6 +24,14 @@
       }
     ]
   },
+  "@fetchOptions": {
+    "type": "object",
+    "autocomplete": [
+      {
+        "description": "Additional fetchOptions that fetch should use to make a request"
+      }
+    ]
+  },
   "@requestPolicy": {
     "enum": ["cache-first", "cache-and-network", "network-only", "cache-only"],
     "autocomplete": [
