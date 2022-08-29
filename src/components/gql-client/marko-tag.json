@@ -28,7 +28,7 @@
     "type": "object",
     "autocomplete": [
       {
-        "description": "Additional fetchOptions that fetch should use to make a request"
+        "description": "Additional fetch options that fetch should use to make a request"
       }
     ]
   },
