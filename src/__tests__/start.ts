@@ -6,7 +6,7 @@ import express from "express";
 import markoExpress from "@marko/express";
 import { wait } from "./queue";
 import build from "./build";
-import { graphqlHTTP } from "express-graphql";
+import { graphqlHTTP } from "@bluesialia/express-graphql";
 import { buildSchema } from "graphql";
 
 // Construct a schema, using GraphQL schema language
