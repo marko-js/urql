@@ -1,6 +1,10 @@
-const { types: t } = require("@marko/compiler");
+function translateMarko4(_el, { builder }) {
+  return builder.vars({
+    componentDef: builder.identifier("__component"),
+  });
+}
 
-module.exports = (path) => {
+function translateMarko5(path, t) {
   path.replaceWith(
     t.variableDeclaration("var", [
       t.variableDeclarator(
@@ -9,4 +13,12 @@ module.exports = (path) => {
       ),
     ])
   );
+}
+
+module.exports = function translate(a, b) {
+  if (a.hub) {
+    return translateMarko5(a, b);
+  }
+
+  return translateMarko4(a, b);
 };
