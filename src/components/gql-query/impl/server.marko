@@ -1,9 +1,23 @@
-import fetch from "make-fetch-happen";
+import fetchImpl from "make-fetch-happen";
 import { createClient } from "../../../client";
 $ {
   let store =
     out.global.$$GQL ||
-    (out.global.$$GQL = createClient({ fetch, isServer: true }));
+    (out.global.$$GQL = createClient({
+      isServer: true,
+      fetch(url, options) {
+        const incomingMessage = out.stream && (out.stream.req || out.stream.request) || out.global.req || out.global.request;
+        if (!incomingMessage) return fetchImpl(url, options);
+
+        return fetchImpl(url, {
+          ...options,
+          headers: {
+            ...incomingMessage.headers,
+            ...options.headers,
+          }
+        });
+      }
+    }));
   const request = store.client.query(input.query, input.variables).toPromise();
 }
 
