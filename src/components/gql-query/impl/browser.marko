@@ -2,11 +2,15 @@ import readyLookup from "../ready-lookup";
 import { createClient } from "../../../client";
 $ window.$$GQL || (window.$$GQL = createClient({}));
 
-<div no-update-if(!component.ready)>
+<div key="root" no-update-if(!component.ready)>
   $ component.ready = true;
   <gql-query-client
     key="gqlc"
-    ...input
+    query=input.query
+    variables=input.variables
+    requestPolicy=input.requestPolicy
+    then=input.then
+    placeholder=input.placeholder
   />
 </div>
 $ if (!component.ready) {

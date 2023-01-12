@@ -1,7 +1,7 @@
 import fetchImpl from "make-fetch-happen";
 import { createClient } from "../../../client";
 $ {
-  let store =
+  const store =
     out.global.$$GQL ||
     (out.global.$$GQL = createClient({
       isServer: true,
@@ -18,23 +18,24 @@ $ {
         });
       }
     }));
-  const request = store.client.query(input.query, input.variables).toPromise();
 }
-
-<await(request) client-reorder placeholder=input.placeholder>
-  <@then|result|>
-    <component-def/>
-    <div no-update>
+<div key="root" no-update>
+  <await(store.client.query(input.query, input.variables).toPromise())
+    client-reorder
+    placeholder=input.placeholder
+  >
+    <@then|{ data, error, operation }|>
+      <component-def/>
       <if(componentDef._wrr)>
         <gql-query-client
-          data=result.data
-          op-key=result.operation.key
-          then=input.then
           key="gqlc"
+          data=data
+          error=error
+          opKey=operation.key
+          then=input.then
         />
       </if>
-      <else><${input.then.renderBody} data=result.data/></else>
-    </div>
-  </@then>
-</await>
-
+      <else><${input.then}({ data, error, fetching: false })/></else>
+    </@then>
+  </await>
+</div>

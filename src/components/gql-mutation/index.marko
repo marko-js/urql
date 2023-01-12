@@ -4,17 +4,14 @@ class {
     this.state = { results: {}, fetching: false };
   }
 }
+$ const { renderBody, mutation, requestPolicy } = input;
 
-<${input.renderBody}(
+<${renderBody}(
   (variables, options) => {
     const { client } = window.$$GQL || (window.$$GQL = createClient({}));
     state.fetching = true;
     return client
-      .mutation(input.mutation, variables, {
-        ...input.context,
-        requestPolicy: input.requestPolicy,
-        ...options,
-      })
+      .mutation(mutation, variables, { requestPolicy, ...options })
       .toPromise()
       .then((results) => {
         state.results = results;
