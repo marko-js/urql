@@ -6,17 +6,26 @@ $ {
     (out.global.$$GQL = createClient({
       isServer: true,
       fetch(url, options) {
-        const incomingMessage = out.stream && (out.stream.req || out.stream.request) || out.global.req || out.global.request;
+        const incomingMessage =
+          (out.stream && (out.stream.req || out.stream.request)) ||
+          out.global.req ||
+          out.global.request;
         if (!incomingMessage) return fetchImpl(url, options);
 
-        return fetchImpl(url, {
-          ...options,
-          headers: {
-            ...incomingMessage.headers,
-            ...options.headers,
+        return fetchImpl(
+          new URL(
+            url,
+            `${incomingMessage.protocol}://${incomingMessage.headers.host}`
+          ).toString(),
+          {
+            ...options,
+            headers: {
+              ...incomingMessage.headers,
+              ...options.headers,
+            },
           }
-        });
-      }
+        );
+      },
     }));
 }
 <div key="root" no-update>
