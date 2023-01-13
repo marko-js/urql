@@ -1,5 +1,7 @@
 import fetchImpl from "make-fetch-happen";
 import { createClient } from "../../../client";
+static const strictSSL = process.env.NODE_TLS_REJECT_UNAUTHORIZED !== "0";
+
 $ {
   const store =
     out.global.$$GQL ||
@@ -19,6 +21,7 @@ $ {
           ).toString(),
           {
             ...options,
+            strictSSL,
             headers: {
               ...incomingMessage.headers,
               ...options.headers,
