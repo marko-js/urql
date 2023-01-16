@@ -9,13 +9,15 @@ $ const { renderBody, mutation, requestPolicy } = input;
 <${renderBody}(
   (variables, options) => {
     const { client } = window.$$GQL || (window.$$GQL = createClient({}));
-    state.fetching = true;
+    component.setState("fetching", true);
     return client
       .mutation(mutation, variables, { requestPolicy, ...options })
       .toPromise()
       .then((results) => {
-        state.results = results;
-        state.fetching = false;
+        component.setState({
+          results,
+          fetching: false,
+        });
         return results;
       });
   },
