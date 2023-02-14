@@ -13,11 +13,7 @@ class {
   }
   onInput(input) {
     if (!input.opKey) {
-      if (this.mounted) {
-        this.doQuery();
-      } else {
-        this.once("mounted", () => this.doQuery());
-      }
+      this.once(this.mounted ? "mount" : "update", () => this.doQuery());
     }
   }
   onMount() {
