@@ -1,38 +1,7 @@
-import fetchImpl from "make-fetch-happen";
-import { createClient } from "../../../client";
-static const strictSSL = process.env.NODE_TLS_REJECT_UNAUTHORIZED !== "0";
+import { getClient } from "../../../client";
 
-$ {
-  const store =
-    out.global.$$GQL ||
-    (out.global.$$GQL = createClient({
-      isServer: true,
-      fetch(url, options) {
-        const incomingMessage =
-          (out.stream && (out.stream.req || out.stream.request)) ||
-          out.global.req ||
-          out.global.request;
-        if (!incomingMessage) return fetchImpl(url, options);
-
-        return fetchImpl(
-          new URL(
-            url,
-            `${incomingMessage.protocol}://${incomingMessage.headers.host}`
-          ).toString(),
-          {
-            ...options,
-            strictSSL,
-            headers: {
-              ...incomingMessage.headers,
-              ...options.headers,
-            },
-          }
-        );
-      },
-    }));
-}
 <div key="root" no-update>
-  <await(store.client.query(input.query, input.variables).toPromise())
+  <await(getClient(out).query(input.query, input.variables).toPromise())
     client-reorder
     placeholder=input.placeholder
   >

@@ -1,4 +1,4 @@
-import { createClient } from "../../client";
+import { getClient } from "../../client";
 class {
   onCreate() {
     this.state = { results: {}, fetching: false };
@@ -8,9 +8,8 @@ $ const { renderBody, mutation, requestPolicy } = input;
 
 <${renderBody}(
   (variables, options) => {
-    const { client } = window.$$GQL || (window.$$GQL = createClient({}));
     component.setState("fetching", true);
-    return client
+    return getClient()
       .mutation(mutation, variables, { requestPolicy, ...options })
       .toPromise()
       .then((results) => {

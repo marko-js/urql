@@ -1,57 +1,58 @@
 import { pipe, subscribe } from "wonka";
+import { getClient, hydrateQuery } from "../../../../client";
 import readyLookup from "../../ready-lookup";
-static function doQuery(
-  component,
-  { query, variables, requestPolicy },
-  options
-) {
-  if (component.unsubscribe) {
-    component.unsubscribe();
-    component.unsubscribe = null;
-  }
-
-  component.state.fetching = true;
-  component.unsubscribe = pipe(
-    window.$$GQL.client.query(query, variables, {
-      requestPolicy,
-      ...options,
-    }),
-    subscribe(({ data, error }) => {
-      component.state.data = data;
-      component.state.error = error;
-      component.state.fetching = false;
-    })
-  ).unsubscribe;
-}
 class {
   onCreate({ data, error, opKey }) {
     this.state = { data, error, fetching: false };
+    this.mounted = false;
 
     if (typeof document !== "undefined" && opKey) {
-      window.$$GQL.ssr.restoreData({
-        [opKey]: {
-          data: data ? JSON.stringify(data) : undefined,
-          error,
-        },
-      });
+      hydrateQuery(opKey, data, error);
       readyLookup[this.id]();
     }
   }
   onInput(input) {
-    if (!input.opKey) doQuery(this, input);
+    if (!input.opKey) {
+      if (this.mounted) {
+        this.doQuery();
+      } else {
+        this.once("mounted", () => this.doQuery());
+      }
+    }
+  }
+  onMount() {
+    this.mounted = true;
   }
   onDestroy() {
+    this.stopQuery();
+  }
+  stopQuery() {
     this.unsubscribe && this.unsubscribe();
+    this.unsubscribe = undefined;
+  }
+  doQuery(options) {
+    this.stopQuery();
+    this.state.fetching = true;
+    this.unsubscribe = pipe(
+      getClient().query(this.input.query, this.input.variables, {
+        requestPolicy: this.input.requestPolicy,
+        ...options,
+      }),
+      subscribe(({ data, error }) => {
+        this.state.data = data;
+        this.state.error = error;
+        this.state.fetching = false;
+      })
+    ).unsubscribe;
   }
 }
 
 <if(state.data || state.error)>
   <${input.then}(
     state,
-    (options) =>
-      doQuery(component, input, { requestPolicy: "network-only", ...options }),
+    (options) => {
+      component.doQuery({ requestPolicy: "network-only", ...options });
+    },
   )/>
 </if>
-<else>
-  <${input.placeholder}/>
-</else>
+<else><${input.placeholder}/></else>
