@@ -1,6 +1,4 @@
 import readyLookup from "../ready-lookup";
-import { createClient } from "../../../client";
-$ window.$$GQL || (window.$$GQL = createClient({}));
 
 <div key="root" no-update-if(!component.ready)>
   $ component.ready = true;

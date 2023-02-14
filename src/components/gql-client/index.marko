@@ -1,7 +1,7 @@
-import lookup from "../../client/lookup";
+import { configureClient } from "../../client";
 class {
-  onCreate(input) {
-    lookup.config = input;
+  onCreate(input, out) {
+    configureClient(input, out);
   }
 }
 
