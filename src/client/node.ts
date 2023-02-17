@@ -32,21 +32,20 @@ export function configureClient(config: ClientOptions, out: any) {
         out.global.req ||
         out.global.request;
       if (!incomingMessage) return fetchImpl(url, options);
-
-      return fetchImpl(
-        new URL(
-          url,
-          `${incomingMessage.protocol}://${incomingMessage.headers.host}`
-        ).toString(),
-        {
-          ...options,
-          strictSSL,
-          headers: {
-            ...incomingMessage.headers,
-            ...options.headers,
-          },
-        }
-      );
+      const protocol =
+        incomingMessage.headers["x-forwarded-proto"] ||
+        incomingMessage.protocol;
+      const host =
+        incomingMessage.headers["x-forwarded-host"] ||
+        incomingMessage.headers.host;
+      return fetchImpl(new URL(url, `${protocol}://${host}`).toString(), {
+        ...options,
+        strictSSL,
+        headers: {
+          ...incomingMessage.headers,
+          ...options.headers,
+        },
+      });
     }) as any,
     ...config,
   });
