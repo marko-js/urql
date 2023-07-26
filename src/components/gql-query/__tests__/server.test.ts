@@ -11,6 +11,11 @@ describe(
   fixture(path.join(__dirname, "fixtures/client-only-variables"))
 );
 
+describe(
+  "client-only-timeout",
+  fixture(path.join(__dirname, "fixtures/client-only-timeout"))
+);
+
 describe("isomorphic", fixture(path.join(__dirname, "fixtures/isomorphic")));
 describe(
   "isomorphic-placeholder",
@@ -19,6 +24,10 @@ describe(
 describe(
   "isomorphic-variables",
   fixture(path.join(__dirname, "fixtures/isomorphic-variables"))
+);
+describe(
+  "isomorphic-timeout",
+  fixture(path.join(__dirname, "fixtures/isomorphic-timeout"))
 );
 
 describe("server-only", fixture(path.join(__dirname, "fixtures/server-only")));
@@ -29,6 +38,10 @@ describe(
 describe(
   "server-only-variables",
   fixture(path.join(__dirname, "fixtures/server-only-variables"))
+);
+describe(
+  "server-only-timeout",
+  fixture(path.join(__dirname, "fixtures/server-only-timeout"))
 );
 
 describe(

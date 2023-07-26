@@ -1,0 +1,11 @@
+import { gql } from "../../../../../../index";
+static const QUERY = gql`
+  query($name: String) {
+    hello(name: $name)
+  }
+`;
+class {}
+
+<gql-query query=QUERY variables={ name: "John" } timeout=1>
+  <@then|{ error }|><span>${error}</span></@then>
+</gql-query>

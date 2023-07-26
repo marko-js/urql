@@ -1,12 +1,13 @@
 import { getClient } from "../../../client";
 
+<component-def/>
 <div key="root" no-update>
   <await(getClient(out).query(input.query, input.variables).toPromise())
     client-reorder
+    timeout=input.timeout
     placeholder=input.placeholder
   >
     <@then|{ data, error, operation }|>
-      <component-def/>
       <if(componentDef._wrr)>
         <gql-query-client
           key="gqlc"
@@ -18,5 +19,17 @@ import { getClient } from "../../../client";
       </if>
       <else><${input.then}({ data, error, fetching: false })/></else>
     </@then>
+    <@catch|error|>
+      <if(componentDef._wrr)>
+        <gql-query-client
+          key="gqlc"
+          data=undefined
+          error=error
+          opKey=undefined
+          then=input.then
+        />
+      </if>
+      <else><${input.then}({ data: undefined, error, fetching: false })/></else>
+    </@catch>
   </await>
 </div>

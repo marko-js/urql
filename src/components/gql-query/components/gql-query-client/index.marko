@@ -2,31 +2,75 @@ import { pipe, subscribe } from "wonka";
 import { getClient, hydrateQuery } from "../../../../client";
 import readyLookup from "../../ready-lookup";
 class {
-  onCreate({ data, error, opKey }) {
-    this.state = { data, error, fetching: false };
+  onCreate(input) {
+    let { data, error, opKey } = input;
+    const state = { data, error, fetching: false };
     this.mounted = false;
 
-    if (typeof document !== "undefined" && opKey) {
-      hydrateQuery(opKey, data, error);
-      readyLookup[this.id]();
+    if (typeof document === "undefined") {
+      this.isSSR = true;
+
+      if (error) {
+        input.toJSON = () => ({
+          ...input,
+          error: {
+            _: true,
+            name: error.name,
+            message: error.message,
+          },
+        })
+      }
+    } else {
+      if (error && error._) {
+        state.error = new Error(error.message);
+        state.error.name = error.name;
+        error = state.error;
+      }
+
+      if (opKey) {
+        hydrateQuery(opKey, data, error);
+      }
+
+      const ready = readyLookup[this.id];
+      if (ready) {
+        this.isSSR = true;
+        ready();
+      } else {
+        this.isSSR = false;
+      }
     }
+
+    this.state = state;
   }
-  onInput(input) {
-    if (!input.opKey) {
-      this.once(this.mounted ? "update" : "mount", () => this.doQuery());
+  onInput() {
+    if (this.isSSR) {
+      this.isSSR = false;
+      return;
     }
+
+    this.once(this.mounted ? "update" : "mount", () => this.doQuery());
   }
   onMount() {
     this.mounted = true;
   }
   onDestroy() {
     this.stopQuery();
+    this.stopTimeout();
   }
   stopQuery() {
-    this.unsubscribe && this.unsubscribe();
-    this.unsubscribe = undefined;
+    if (this.unsubscribe) {
+      this.unsubscribe();
+      this.unsubscribe = undefined;
+    }
+  }
+  stopTimeout() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+      this.timeoutId = undefined;
+    }
   }
   doQuery(options) {
+    this.stopTimeout();
     this.stopQuery();
     this.state.fetching = true;
     this.unsubscribe = pipe(
@@ -35,11 +79,29 @@ class {
         ...options,
       }),
       subscribe(({ data, error }) => {
+        this.stopTimeout();
         this.state.data = data;
         this.state.error = error;
         this.state.fetching = false;
       })
     ).unsubscribe;
+
+    let timeout = this.input.timeout;
+    if (timeout == null) {
+      timeout = 10000;
+    }
+
+    if (timeout > 0) {
+      this.timeoutId = setTimeout(() => {
+        this.stopQuery();
+        const err = new Error("Timed out after " + timeout + "ms");
+        err.code = "ERR_AWAIT_TIMEDOUT";
+        err.name = "TimeoutError";
+        this.state.data = undefined;
+        this.state.error = err;
+        this.state.fetching = false;
+      }, timeout);
+    }
   }
 }
 

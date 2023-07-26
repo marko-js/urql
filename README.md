@@ -147,6 +147,10 @@ Any variables to pass to the query.
 
 The cache policy to use with this query request.
 
+#### `timeout`
+
+A time in milliseconds after which the query will be aborted and resolve to a timeout error.
+
 #### `@then|results, revalidate|`
 
 The content to display on query completion. The results object consists of:
