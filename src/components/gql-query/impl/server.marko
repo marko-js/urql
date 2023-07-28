@@ -1,4 +1,11 @@
 import { getClient } from "../../../client";
+static function errorToJSON() {
+  return {
+    _: 1,
+    name: this.name,
+    message: this.message
+  }
+}
 
 <component-def/>
 <div key="root" no-update>
@@ -21,11 +28,10 @@ import { getClient } from "../../../client";
     </@then>
     <@catch|error|>
       <if(componentDef._wrr)>
+        $ error.toJSON = errorToJSON;
         <gql-query-client
           key="gqlc"
-          data=undefined
           error=error
-          opKey=undefined
           then=input.then
         />
       </if>
