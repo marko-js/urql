@@ -5,54 +5,46 @@ class {
   onCreate(input) {
     let { data, error, opKey } = input;
     const state = { data, error, fetching: false };
-    this.mounted = false;
 
-    if (typeof document === "undefined") {
-      this.isSSR = true;
-
-      if (error) {
-        input.toJSON = () => ({
-          ...input,
-          error: {
-            _: true,
-            name: error.name,
-            message: error.message,
-          },
-        })
-      }
-    } else {
-      if (error && error._) {
-        state.error = new Error(error.message);
-        state.error.name = error.name;
-        error = state.error;
-      }
-
+    if (typeof document !== "undefined") {
       if (opKey) {
         hydrateQuery(opKey, data, error);
+      } else if (error && error._) {
+        state.error = new Error(error.message);
+        state.error.name = error.name;
       }
 
       const ready = readyLookup[this.id];
       if (ready) {
-        this.isSSR = true;
+        // Hydration takes a double render pass, we avoid doing a new query until that's done.
+        let skipQueries = 2;
+        const onRender = () => {
+          this.shouldQuery = false;
+          if (!--skipQueries) {
+            this.removeListener("render", onRender);
+          }
+        };
+        this.on("render", onRender);
         ready();
       } else {
-        this.isSSR = false;
+        this.once("mount", () => this.doQuery());
       }
     }
 
     this.state = state;
   }
-  onInput() {
-    if (this.isSSR) {
-      this.isSSR = false;
-      return;
-    }
 
-    this.once(this.mounted ? "update" : "mount", () => this.doQuery());
+  onInput() {
+    this.shouldQuery = true;
   }
-  onMount() {
-    this.mounted = true;
+
+  onUpdate() {
+    if (this.shouldQuery) {
+      this.shouldQuery = false;
+      this.doQuery();
+    }
   }
+
   onDestroy() {
     this.stopQuery();
     this.stopTimeout();
@@ -73,18 +65,6 @@ class {
     this.stopTimeout();
     this.stopQuery();
     this.state.fetching = true;
-    this.unsubscribe = pipe(
-      getClient().query(this.input.query, this.input.variables, {
-        requestPolicy: this.input.requestPolicy,
-        ...options,
-      }),
-      subscribe(({ data, error }) => {
-        this.stopTimeout();
-        this.state.data = data;
-        this.state.error = error;
-        this.state.fetching = false;
-      })
-    ).unsubscribe;
 
     let timeout = this.input.timeout;
     if (timeout == null) {
@@ -102,6 +82,19 @@ class {
         this.state.fetching = false;
       }, timeout);
     }
+
+    this.unsubscribe = pipe(
+      getClient().query(this.input.query, this.input.variables, {
+        requestPolicy: this.input.requestPolicy,
+        ...options,
+      }),
+      subscribe(({ data, error }) => {
+        this.stopTimeout();
+        this.state.data = data;
+        this.state.error = error;
+        this.state.fetching = false;
+      })
+    ).unsubscribe;
   }
 }
 
@@ -110,7 +103,9 @@ class {
     state,
     (options) => {
       component.doQuery({ requestPolicy: "network-only", ...options });
-    },
+    }
   )/>
 </if>
-<else><${input.placeholder}/></else>
+<else>
+  <${input.placeholder}/>
+</else>
