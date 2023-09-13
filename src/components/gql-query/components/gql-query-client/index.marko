@@ -27,7 +27,10 @@ class {
         this.on("render", onRender);
         ready();
       } else {
-        this.once("mount", () => this.doQuery());
+        this.once("mount", () => {
+          this.shouldQuery = false;
+          this.doQuery();
+        });
       }
     }
 
