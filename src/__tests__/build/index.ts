@@ -21,6 +21,10 @@ export default async function (file: string) {
         cwd,
         "src/node_modules/@internal/client/browser.ts",
       ),
+      "@internal/client/devtools": path.join(
+        cwd,
+        "src/node_modules/@internal/client/devtools.ts",
+      ),
       "@internal/gql-query": path.join(
         cwd,
         "src/node_modules/@internal/gql-query/browser.marko",

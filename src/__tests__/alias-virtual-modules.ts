@@ -4,6 +4,9 @@ import { Module } from "module";
 // For our browser remapped modules we skip resolution during testing and resolve the original source files.
 const modules: Record<string, string> = {
   "@internal/client": path.resolve("src/node_modules/@internal/client/node.ts"),
+  "@internal/client/devtools": path.resolve(
+    "src/node_modules/@internal/client/devtools.ts",
+  ),
   "@internal/gql-query": path.resolve(
     "src/node_modules/@internal/gql-query/node.marko",
   ),
