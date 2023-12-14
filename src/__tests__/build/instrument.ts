@@ -11,7 +11,7 @@ export default function (code: string, filename: string) {
       instrumenter.instrumentSync(
         convert.removeComments(code),
         filename,
-        inputMap
+        inputMap,
       ) + convert.fromObject(instrumenter.lastSourceMap()).toComment()
     );
   }

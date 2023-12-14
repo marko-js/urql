@@ -59,7 +59,7 @@ export default function markoPlugin(opts: Options = {}): esbuild.Plugin {
           (args) => ({
             contents: virtualFiles.get(args.path)!.code,
             loader: path.extname(args.path).slice(1) as esbuild.Loader,
-          })
+          }),
         );
 
         build.onResolve({ filter: /\.marko$/ }, async (args) => ({
@@ -69,17 +69,17 @@ export default function markoPlugin(opts: Options = {}): esbuild.Plugin {
 
         build.onLoad(
           { filter: /\.marko$/, namespace: "marko:hydrate" },
-          (args) => compileSafe(args.path, "hydrate")
+          (args) => compileSafe(args.path, "hydrate"),
         );
       }
 
       build.onLoad({ filter: /\.marko$/, namespace: "file" }, (args) =>
-        compileSafe(args.path, output)
+        compileSafe(args.path, output),
       );
 
       async function compileSafe(
         filename: string,
-        output: Exclude<Compiler.Config["output"], void>
+        output: Exclude<Compiler.Config["output"], void>,
       ): Promise<esbuild.OnLoadResult> {
         try {
           const { code, meta } = await compiler.compileFile(filename, {
@@ -110,7 +110,7 @@ export default function markoPlugin(opts: Options = {}): esbuild.Plugin {
             const line = parseInt(rawLine, 10) || 1;
             const column = parseInt(rawCol, 10) || 1;
             lines ||= (await fs.promises.readFile(filename, "utf-8")).split(
-              /\r\n|\r|\n/g
+              /\r\n|\r|\n/g,
             );
             errors.push({
               text,
