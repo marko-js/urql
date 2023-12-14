@@ -22,11 +22,15 @@ export default (dir: string, step?: Step[] | Step) => {
 
       try {
         await waitForPendingRequests(page, () => page.goto(app!.url));
-        await forEachChange((html, i) => snap(html, `loading.${i}.html`));
+        await forEachChange((html, i) =>
+          snap(html, { file: `loading.${i}.html` }),
+        );
 
         for (const [i, step] of steps.entries()) {
           await waitForPendingRequests(page, step);
-          await forEachChange((html, j) => snap(html, `step-${i}.${j}.html`));
+          await forEachChange((html, j) =>
+            snap(html, { file: `step-${i}.${j}.html` }),
+          );
         }
       } finally {
         await app.close();
@@ -46,7 +50,7 @@ before(async () => {
   await Promise.all([
     context.exposeFunction("__track__", (html: string) => {
       const formatted = defaultSerializer(
-        defaultNormalizer(JSDOM.fragment(html))
+        defaultNormalizer(JSDOM.fragment(html)),
       ).replace(/http:\/\/[^/]+/g, "");
 
       if (changes.at(-1) !== formatted) {
@@ -92,7 +96,7 @@ if (process.env.NYC_CONFIG) {
   // Save coverage after each test.
   afterEach(async () => {
     const coverage = await page?.evaluate(() =>
-      JSON.stringify((window as any).__coverage__)
+      JSON.stringify((window as any).__coverage__),
     );
 
     if (coverage) {
@@ -100,9 +104,9 @@ if (process.env.NYC_CONFIG) {
         path.join(
           NYC_CONFIG.cwd,
           NYC_CONFIG.tempDir,
-          `web-${report++}-${crypto.randomBytes(16).toString("hex")}.json`
+          `web-${report++}-${crypto.randomBytes(16).toString("hex")}.json`,
         ),
-        coverage
+        coverage,
       );
     }
   });
@@ -144,7 +148,7 @@ async function waitForPendingRequests(page: playwright.Page, step: Step) {
  * Applies changes currently and ensures no new changes come in while processing.
  */
 async function forEachChange<F extends (html: string, i: number) => unknown>(
-  fn: F
+  fn: F,
 ) {
   const len = changes.length;
   await Promise.all(changes.map(fn));

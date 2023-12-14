@@ -1,4 +1,7 @@
 {
-  "*.ts": ["eslint -f codeframe --fix", "prettier --write"],
-  "*{.js,.json,.md,.yml,rc}": ["prettier --write"]
+  "*.ts": [
+    "eslint -f codeframe --fix",
+    "prettier --write -u --with-node-modules"
+  ],
+  "*{.js,.json,.md,.yml,rc}": ["prettier --write -u --with-node-modules"]
 }

@@ -6,8 +6,10 @@ import express from "express";
 import markoExpress from "@marko/express";
 import { wait } from "./queue";
 import build from "./build";
-import { graphqlHTTP } from "@bluesialia/express-graphql";
 import { buildSchema } from "graphql";
+import { createHandler } from "graphql-http/lib/use/http";
+
+import "./alias-virtual-modules";
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
@@ -49,10 +51,10 @@ export async function start(dir: string) {
   const app = express();
   app.use(
     "/graphql",
-    graphqlHTTP({
+    createHandler({
       schema: schema,
       rootValue: createRoot(),
-    })
+    }),
   );
   app.use(throttleMiddleware());
   app.use(markoExpress());
@@ -89,7 +91,7 @@ export async function start(dir: string) {
           });
         });
       }
-    })
+    }),
   );
 
   const server = app.listen();

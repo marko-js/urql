@@ -1,4 +1,0 @@
-{
-  "main": "./server.marko",
-  "browser": "./browser.marko"
-}

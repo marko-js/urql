@@ -6,7 +6,7 @@ describe(
   "run-mutation",
   fixture(path.join(__dirname, "fixtures/run-mutation"), [
     async (page) => await page.click("text=Add"),
-  ])
+  ]),
 );
 
 describe(
@@ -14,7 +14,7 @@ describe(
   fixture(path.join(__dirname, "fixtures/mutation-with-query"), [
     async (page) => await page.click("text=Add"),
     async (page) => await page.click("text=Add"),
-  ])
+  ]),
 );
 
 // TODO: Investigate why test harness doesn't behave as expected.

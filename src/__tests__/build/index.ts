@@ -16,6 +16,16 @@ export default async function (file: string) {
     platform: "browser",
     sourcemap: "inline",
     entryNames: "[dir]/[name]-[hash]",
+    alias: {
+      "@internal/client": path.join(
+        cwd,
+        "src/node_modules/@internal/client/browser.ts",
+      ),
+      "@internal/gql-query": path.join(
+        cwd,
+        "src/node_modules/@internal/gql-query/browser.marko",
+      ),
+    },
     entryPoints: { main: file },
     plugins: [markoPlugin({})],
   });
