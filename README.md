@@ -108,10 +108,12 @@ This attribute allows you to pass a custom `fetch` implementation.
 
 In the following example we'll add a token to each fetch request that our Client sends to our GraphQL API.
 
+> Note: fetchImp as third parameter is the default implementation based on environment. It is `fetch` API in browser and `make-fetch-happen` in node.
+
 ```marko
 <gql-client
   url="http://localhost:3000/graphql"
-  fetch=((resource, options) => {
+  fetch=((resource, options, fetchImp) => {
     const token = getToken();
     return fetch(resource, {
       ...options,

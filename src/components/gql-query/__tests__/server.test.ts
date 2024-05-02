@@ -18,6 +18,10 @@ describe(
 
 describe("isomorphic", fixture(path.join(__dirname, "fixtures/isomorphic")));
 describe(
+  "isomorphic-fetch-imp",
+  fixture(path.join(__dirname, "fixtures/isomorphic-fetch-imp")),
+);
+describe(
   "isomorphic-placeholder",
   fixture(path.join(__dirname, "fixtures/isomorphic-placeholder")),
 );
