@@ -102,6 +102,12 @@ This central Client manages all of our GraphQL requests and results.
 
 The url of the GraphQL server.
 
+#### `name`
+
+The name of Urql client. This is required when setting up multiple clients.
+
+> Cooresponding `name` need to be set in `<gql-query>` and/or `<gql-mutation>` as well.
+
 #### `fetch`
 
 This attribute allows you to pass a custom `fetch` implementation.
@@ -167,6 +173,10 @@ The content to display on query completion. The results object consists of:
 
 The loading state placeholder to use on initial render.
 
+#### `name`
+
+The name of cooresponding Urql client.
+
 ## `<gql-mutation|mutate, results|>`
 
 This tag performs graphql mutations. The content is rendered immediately on mount and provides the `mutate` method that can be used to trigger the mutation. `mutate` takes the variables as first argument and options as second argument.
@@ -213,6 +223,10 @@ The graphql query to perform.
 #### `requestPolicy`
 
 The cache policy to use with this mutation request.
+
+#### `name`
+
+The name of cooresponding Urql client.
 
 # Code of Conduct
 
