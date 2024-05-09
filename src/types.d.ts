@@ -4,9 +4,8 @@ declare module "@internal/client" {
   export const readyLookup: Record<string, any>;
   export function getClient(out?: Marko.Out, name?: string): Client;
   export function configureClient(
-    config: ClientOptions,
+    config: ClientOptions & { fetch?: any; name?: string },
     out: Marko.Out,
-    name?: string,
   ): void;
   export function hydrateQuery(
     opKey: string,
