@@ -16,6 +16,14 @@
       }
     ]
   },
+  "@name": {
+    "type": "string",
+    "autocomplete": [
+      {
+        "description": "Name of the client that the query will be executed against"
+      }
+    ]
+  },
   "@variables": {
     "type": "object",
     "autocomplete": [

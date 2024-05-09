@@ -1,0 +1,37 @@
+import { gql } from "../../../../../../index";
+static const QUERY = gql`
+  query($name: String) {
+    hello(name: $name)
+  }
+`;
+class {
+  onCreate() {
+    this.state = { name: "John" }
+  }
+  handleClick() {
+    this.state.name = this.state.name === "John" ? "Jake" : "John"
+  }
+}
+
+<gql-query query=QUERY variables={ name: state.name }>
+  <@then|{ data, fetching }|>
+    <if(fetching)>
+      <span>Stale</span>
+    </if>
+    <span>${data.hello}</span>
+    <button on-click("handleClick")>Toggle</button>
+  </@then>
+</gql-query>
+<div>
+  <h3>
+    Alt client
+  </h3>
+  <gql-query name="alt" query=QUERY variables={ name: state.name }>
+    <@then|{ data, fetching }|>
+      <if(fetching)>
+        <span>Stale(alt)</span>
+      </if>
+      <span>${data.hello}</span>
+    </@then>
+  </gql-query>
+</div>

@@ -1,7 +1,7 @@
 import { configureClient } from "@internal/client";
 class {
   onCreate(input, out) {
-    configureClient(input, out);
+    configureClient(input, out, input.name);
   }
 }
 

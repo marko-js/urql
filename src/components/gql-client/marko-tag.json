@@ -16,6 +16,14 @@
       }
     ]
   },
+  "@name": {
+    "type": "string",
+    "autocomplete": [
+      {
+        "description": "A unique name for the resource"
+      }
+    ]
+  },
   "@fetch": {
     "type": "function",
     "autocomplete": [

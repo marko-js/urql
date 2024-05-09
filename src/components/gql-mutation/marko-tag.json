@@ -16,6 +16,14 @@
       }
     ]
   },
+  "@name": {
+    "type": "string",
+    "autocomplete": [
+      {
+        "description": "Name of the client that the mutation will be executed against"
+      }
+    ]
+  },
   "@requestPolicy": {
     "enum": ["cache-first", "cache-and-network", "network-only", "cache-only"],
     "autocomplete": [

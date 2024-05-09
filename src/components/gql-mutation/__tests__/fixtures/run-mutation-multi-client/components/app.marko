@@ -1,0 +1,29 @@
+import { gql } from "../../../../../../index";
+
+static const MUTATION = gql`
+  mutation addMessage(
+    $text: String!
+  ) {
+    addMessage(text: $text)
+  }
+`;
+
+class {
+  handleClick(mutate, e) {
+    mutate({ text: "Hello" });
+  }
+}
+
+<gql-mutation|mutate, results| mutation=MUTATION>
+  <h1>Messages</h1>
+  <span>${results.data && results.data.addMessage}</span>
+  <span>${results.fetching ? "executing" : ""}</span>
+  <button on-click("handleClick", mutate)>Add</button>
+</gql-mutation>
+
+<gql-mutation|mutate, results| mutation=MUTATION name="alt">
+  <h1>Messages</h1>
+  <span>${results.data && results.data.addMessage}</span>
+  <span>${results.fetching ? "executing" : ""}</span>
+  <button on-click("handleClick", mutate)>Add(alt)</button>
+</gql-mutation>
