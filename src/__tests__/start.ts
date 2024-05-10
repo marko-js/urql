@@ -25,23 +25,27 @@ const schema = buildSchema(`
 `);
 
 // The root provides a resolver function for each API endpoint
-const createRoot = () => {
+const createRoot = (contentPostfix = "", delay = 0) => {
   const messages: Array<string> = [];
   return {
-    hello: ({ name = "world" }) => {
-      return `Hello ${name}!`;
+    hello: async ({ name = "world" }) => {
+      await new Promise((r) => setTimeout(r, delay));
+      return `Hello ${name}!${contentPostfix}`;
     },
-    messages: () => {
+    messages: async () => {
+      await new Promise((r) => setTimeout(r, delay));
       return messages;
     },
-    addMessage: ({ text }: { text: string }) => {
+    addMessage: async ({ text }: { text: string }) => {
+      await new Promise((r) => setTimeout(r, delay));
       if (text) {
-        messages.push(text);
+        messages.push(text + contentPostfix);
       }
-      return text;
+      return text + contentPostfix;
     },
-    doError: () => {
-      throw new Error("Oh No");
+    doError: async () => {
+      await new Promise((r) => setTimeout(r, delay));
+      throw new Error("Oh No" + contentPostfix);
     },
   };
 };
@@ -54,6 +58,13 @@ export async function start(dir: string) {
     createHandler({
       schema: schema,
       rootValue: createRoot(),
+    }),
+  );
+  app.use(
+    "/graphqlAlt",
+    createHandler({
+      schema: schema,
+      rootValue: createRoot("(Alt)", 100),
     }),
   );
   app.use(throttleMiddleware());
@@ -88,6 +99,9 @@ export async function start(dir: string) {
             graphqlURL: `http://localhost:${
               (server.address() as AddressInfo).port
             }/graphql`,
+            graphqlURLAlt: `http://localhost:${
+              (server.address() as AddressInfo).port
+            }/graphqlAlt`,
           });
         });
       }

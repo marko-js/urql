@@ -10,6 +10,14 @@ describe(
 );
 
 describe(
+  "run-mutation-multi-client",
+  fixture(path.join(__dirname, "fixtures/run-mutation-multi-client"), [
+    async (page) => await page.click("text=Add"),
+    async (page) => await page.click("text=Add(alt)"),
+  ]),
+);
+
+describe(
   "mutation-with-query",
   fixture(path.join(__dirname, "fixtures/mutation-with-query"), [
     async (page) => await page.click("text=Add"),

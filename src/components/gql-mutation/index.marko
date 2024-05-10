@@ -4,12 +4,12 @@ class {
     this.state = { results: {}, fetching: false };
   }
 }
-$ const { renderBody, mutation, requestPolicy } = input;
+$ const { renderBody, mutation, requestPolicy, name } = input;
 
 <${renderBody}(
   (variables, options) => {
     component.setState("fetching", true);
-    return getClient()
+    return getClient(undefined, name)
       .mutation(mutation, variables, { requestPolicy, ...options })
       .toPromise()
       .then((results) => {
