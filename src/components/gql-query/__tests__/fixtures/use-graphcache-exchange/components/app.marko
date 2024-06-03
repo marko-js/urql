@@ -1,0 +1,38 @@
+import { gql } from "../../../../../../index";
+import { cacheExchange } from '@urql/exchange-graphcache';
+
+static const QUERY = gql`
+  query($id: String) {
+    todo(id: $id) {
+      id
+      name
+    }
+  }
+`;
+class {
+  onCreate() {
+    this.state = { id: "John" }
+  }
+  handleClick() {
+    this.state.id = this.state.id === "John" ? "Jake" : "John"
+  }
+}
+
+<gql-client url=input.graphqlURL cacheExchange=cacheExchange({
+  resolvers: {
+    Todo: {
+      name: (parent) => {
+        return `${parent.name} from custom resolver`;
+      }
+    },
+  },
+}) />
+<gql-query query=QUERY variables={ id: state.id }>
+  <@then|{ data, fetching, error }|>
+    <if(fetching)>
+      <span>Stale</span>
+    </if>
+    <span>${data?.todo.name}</span>
+    <button on-click("handleClick")>Toggle</button>
+  </@then>
+</gql-query>

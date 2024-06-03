@@ -86,3 +86,12 @@ describe(
     async (page) => await page.click("text=Toggle"),
   ]),
 );
+
+describe(
+  "use-graphcache-exchange",
+  fixture(path.join(__dirname, "fixtures/use-graphcache-exchange"), [
+    async (page) => await page.click("text=Toggle"),
+    async (page) => await page.click("text=Toggle"),
+    async (page) => await page.click("text=Toggle"),
+  ]),
+);

@@ -224,6 +224,25 @@ The graphql query to perform.
 
 The cache policy to use with this mutation request.
 
+#### `cacheExchange`
+
+Replace `cacheExchange` from `@urql/core` with provided one.
+
+```MARKO
+import { cacheExchange } from '@urql/exchange-graphcache';
+
+<gql-client
+  ...input
+  cacheExchange=cacheExchange({
+    resolvers: {
+      Todo: {
+        updatedAt: parent => new Date(parent.updatedAt),
+      },
+    },
+  })
+/>
+```
+
 #### `name`
 
 The name of cooresponding Urql client.
