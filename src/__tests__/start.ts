@@ -15,7 +15,13 @@ import "./alias-virtual-modules";
 const schema = buildSchema(`
   type Query {
     hello(name: String): String
+    todo(id: String): Todo
     messages: [String]
+  }
+
+  type Todo {
+    id: String
+    name: String
   }
 
   type Mutation {
@@ -31,6 +37,13 @@ const createRoot = (contentPostfix = "", delay = 0) => {
     hello: async ({ name = "world" }) => {
       await new Promise((r) => setTimeout(r, delay));
       return `Hello ${name}!${contentPostfix}`;
+    },
+    todo: async ({ id }: { id: string }) => {
+      await new Promise((r) => setTimeout(r, delay));
+      return {
+        id,
+        name: "Todo " + id + contentPostfix,
+      };
     },
     messages: async () => {
       await new Promise((r) => setTimeout(r, delay));

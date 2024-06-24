@@ -47,5 +47,12 @@
         "description": "Default cache policy for requests."
       }
     ]
+  },
+  "@cacheExchange": {
+    "autocomplete": [
+      {
+        "description": "Replace default cache exchange."
+      }
+    ]
   }
 }
