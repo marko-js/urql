@@ -9,6 +9,7 @@
   "dependencies": {
     "@urql/core": "^3.0.4",
     "@urql/devtools": "^2.0.3",
+    "dequal": "^2.0.3",
     "make-fetch-happen": "^13.0.0"
   },
   "devDependencies": {
