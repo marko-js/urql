@@ -9,7 +9,6 @@
   "dependencies": {
     "@urql/core": "^3.0.4",
     "@urql/devtools": "^2.0.3",
-    "dequal": "^2.0.3",
     "make-fetch-happen": "^13.0.0"
   },
   "devDependencies": {
@@ -50,7 +49,7 @@
     "prettier": "^3.1.1",
     "replace": "^1.2.2",
     "semantic-release": "^22.0.12",
-    "tsx": "^4.6.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.3.3"
   },
   "files": [
