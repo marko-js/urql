@@ -14,6 +14,15 @@ let page: playwright.Page;
 let browser: playwright.Browser | undefined;
 let changes: string[] = [];
 
+const { toString } = Function.prototype;
+Function.prototype.toString = function (...args) {
+  // hack to work around https://github.com/privatenumber/tsx/issues/113
+  return `function () {
+  const __name = (target, value) => Object.defineProperty(target, "name", { value, configurable: true });
+  return Reflect.apply(${Reflect.apply(toString, this, args)}, this, arguments);
+}`;
+};
+
 export default (dir: string, step?: Step[] | Step) => {
   const steps = step ? (Array.isArray(step) ? step : [step]) : [];
   return () => {
